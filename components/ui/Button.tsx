@@ -1,21 +1,32 @@
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, useColorScheme } from 'react-native';
 
 type ButtonProps = {
-  title?: string;          // O título que será mostrado no botão (opcional)
-  onPress: () => void;     // Função chamada quando o botão é pressionado
-  children?: React.ReactNode; // Elementos filhos para serem renderizados dentro do botão
+  onPress: () => void;    
+  children?: React.ReactNode;
 };
 
-export function Button({ title, onPress, children }: ButtonProps) {
+
+export function Button({onPress, children}: ButtonProps) {
+  const color = useColorScheme() == "light" ? 
+  Colors.light.text : Colors.dark.text;
+  
+  const isIcon = React.isValidElement(children);
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      {children ? (
-        children // Exibe o elemento filho se presente
+    <TouchableOpacity onPress={onPress} style={[styles.button, { borderColor: color }]}>
+      {isIcon ? (
+        React.cloneElement(children as React.ReactElement<any>, {
+          color: color, // Aplica a cor ao ícone
+        })
       ) : (
-        <Text style={styles.buttonText}>{title}</Text> // Caso contrário, exibe o título
+        // Caso contrário, aplica a cor ao texto
+        <Text style={[{ color }]}>
+          {children ? children : null}
+        </Text>
       )}
     </TouchableOpacity>
   );
@@ -23,16 +34,11 @@ export function Button({ title, onPress, children }: ButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    borderWidth: 1,            // Adiciona o contorno
-    borderColor: '#000',       // Cor do contorno (mesma cor do texto)
-    paddingVertical: 10,       // Espaçamento vertical
-    paddingHorizontal: 20,     // Espaçamento horizontal
-    borderRadius: 5,           // Arredondamento nas bordas
-    alignItems: 'center',      // Centraliza o conteúdo
-    justifyContent: 'center',  // Centraliza o conteúdo
-  },
-  buttonText: {
-    color: '#000',             // Cor do texto (igual ao contorno)
-    fontSize: 16,              // Tamanho da fonte
-  },
+    borderWidth: 2,           
+    paddingVertical: 10,       
+    paddingHorizontal: 20,     
+    borderRadius: 5,          
+    alignItems: 'center',     
+    justifyContent: 'center', 
+  }
 });

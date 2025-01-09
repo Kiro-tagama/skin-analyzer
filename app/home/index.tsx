@@ -2,20 +2,15 @@ import { styles } from "@/components/styles/styles";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/Button";
-import { Feather } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { Feather, FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
+import { handleImportPhoto } from "./handleImportPhoto";
 
 export default function Home() {
-  const router = useRouter();
 
-  // Função para lidar com o clique no botão da câmera
+  const [photo,setPhoto]=useState<string>('');
+
   const handleCameraPress = () => {
-    router.push('/camera'); // Você pode configurar a navegação para a tela da câmera
-  };
-
-  // Função para lidar com o clique no botão de importar foto
-  const handleImportPhotoPress = () => {
-    router.push('/import'); // Você pode configurar a navegação para a tela de importar
   };
 
   const messageAlert="Mesmo com a análise feita pela IA, é fundamental procurar um médico para confirmação."
@@ -30,11 +25,14 @@ export default function Home() {
         Este aplicativo usa inteligência artificial para analisar imagens de sua pele e fornecer informações preliminares sobre possíveis sinais de câncer.
       </ThemedText>
 
-
       {/* Botões */}
       <ThemedView style={{flexDirection:"row",gap:10,marginVertical:"15%"}}>
-        <Button onPress={handleCameraPress}>b1</Button>
-        <Button onPress={handleImportPhotoPress} >b2</Button>
+        <Button onPress={handleCameraPress}>
+          <FontAwesome name="camera" size={24}/>
+        </Button>
+        <Button onPress={()=>handleImportPhoto(setPhoto)}>
+          <FontAwesome name="photo" size={24}/>
+        </Button>
       </ThemedView>
 
       {/* Alerta */}
