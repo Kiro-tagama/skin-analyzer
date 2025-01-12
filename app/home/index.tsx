@@ -3,34 +3,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/Button";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { handleImportPhoto } from "./handleImportPhoto";
-import { ActivityIndicator, Alert, Modal, Platform } from "react-native";
+import { ActivityIndicator, Platform } from "react-native";
 import React from "react";
-import CameraModal from "@/components/CameraModal";
+import CameraModal from "./CameraModal";
+import { useHomeHook } from "./useHomeHook";
 
 export default function Home() {
-
-  const [photo,setPhoto]=useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleCameraPress = () => {
-    Alert.alert("ainda não criado")
-  };
-
-  const messageAlert="Mesmo com a análise feita pela IA, é fundamental procurar um médico para confirmação."
-
-  const handleImportPhotoWithLoading = async () => {
-    setIsLoading(true); // Inicia o loading
-    try {
-      await handleImportPhoto(setPhoto); // Chama a função de importação
-    } catch (error) {
-      console.error("Erro ao importar foto:", error);
-      Alert.alert("Erro", "Ocorreu um erro ao importar a foto. Tente novamente.");
-    } finally {
-      setIsLoading(false); // Finaliza o loading, independentemente de sucesso ou falha
-    }
-  };
+  const {isLoading,handleImportPhotoWithLoading,messageAlert} = useHomeHook();
 
   return (
     <ThemedView style={[styles.container]}>

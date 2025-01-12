@@ -6,18 +6,19 @@ import { TouchableOpacity, Text, StyleSheet, useColorScheme } from 'react-native
 
 type ButtonProps = {
   onPress: () => void;    
+  disabled?: boolean;
   children?: React.ReactNode;
 };
 
 
-export function Button({onPress, children}: ButtonProps) {
+export function Button({onPress, disabled, children}: ButtonProps) {
   const color = useColorScheme() == "light" ? 
   Colors.light.text : Colors.dark.text;
   
   const isIcon = React.isValidElement(children);
 
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.button, { borderColor: color }]}>
+    <TouchableOpacity onPress={onPress} disabled={disabled} style={[styles.button, { borderColor: color }]}>
       {isIcon ? (
         React.cloneElement(children as React.ReactElement<any>, {
           color: color, // Aplica a cor ao ícone

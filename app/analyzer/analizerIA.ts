@@ -2,9 +2,8 @@ import * as tf from '@tensorflow/tfjs';
 import { decodeJpeg } from '@tensorflow/tfjs-react-native';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 
-export const analizerIA = async (img: string, modelPath:string) => {
+export const analizerIA = async (img: string, modelPath?:string) => {
   try {
-    // Load mobilenet.
     await tf.ready();
 
     const base64Image = img.replace(/^data:image\/\w+;base64,/, "");

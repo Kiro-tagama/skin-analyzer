@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { SetStateAction } from 'react';
 import { Platform } from 'react-native';
 
-export async function handleImportPhoto(setPhoto: { (value: SetStateAction<string>): void; (arg0: string): void; }){
+export async function handleImportPhoto(){
   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
   if (!permissionResult.granted) {
@@ -34,7 +34,6 @@ export async function handleImportPhoto(setPhoto: { (value: SetStateAction<strin
     } catch (error) {
       console.error("Erro ao ler o arquivo:", error);
     }
-    setPhoto(photoUri)
     router.push(`/analyzer?imageUri=${encodeURIComponent(photoUri)}`);
   } else {
     console.log('Usuário cancelou a seleção da imagem.');
