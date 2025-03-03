@@ -28,7 +28,7 @@ export default function Home() {
 
       {/* Botões */}
       <ThemedView style={{flexDirection:"row",gap:10,marginVertical:"15%"}}>
-        {Platform.OS === "web" ? null: <CameraModal/>}
+        {/* {Platform.OS === "web" ? null: <CameraModal/>} */}
         <Button onPress={()=>handleImportPhotoWithLoading()}>
           <FontAwesome name="photo" size={24}/>
         </Button>

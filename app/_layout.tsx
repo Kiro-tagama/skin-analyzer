@@ -19,7 +19,6 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      // @ts-ignore
       router.push('/home');
       SplashScreen.hideAsync();
     }

@@ -1,6 +1,4 @@
 import { Colors } from '@/constants/Colors';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, useColorScheme } from 'react-native';
 
