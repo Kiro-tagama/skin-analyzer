@@ -4,7 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { styles } from "@/components/styles/styles";
 
-import { ActivityIndicator, FlatList, Platform, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { Button } from "@/components/ui/Button";
 import { useAnalyzerHook } from "./useAnalyzerHook";
 import { mappingIAs } from "@/assets/IAModels/mappingIAs";
@@ -19,7 +19,7 @@ export default function Analyzer() {
   } : any = useAnalyzerHook();
 
   // Define a marge superior para iOS para evitar o status bar ionic
-  const mt = Platform.OS === "ios" ? 40:30
+  const mt = 40//Platform.OS === "ios" ? 40:30
 
   return (
     <ThemedView style={styles.container}>

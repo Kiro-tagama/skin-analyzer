@@ -3,7 +3,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/Button";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import { ActivityIndicator, Platform } from "react-native";
+import { ActivityIndicator } from "react-native";
 import React from "react";
 import CameraModal from "./CameraModal";
 import { useHomeHook } from "./useHomeHook";
