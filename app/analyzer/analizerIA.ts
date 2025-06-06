@@ -1,7 +1,9 @@
-import * as tf from '@tensorflow/tfjs';
-import { decodeJpeg } from '@tensorflow/tfjs-react-native';
-import * as mobilenet from '@tensorflow-models/mobilenet';
+import * as tf from "@tensorflow/tfjs";
+import { decodeJpeg } from "@tensorflow/tfjs-react-native";
+import * as mobilenet from "@tensorflow-models/mobilenet";
 import { decode } from "base64-arraybuffer";
+
+import modeltest from "../../assets/IAModels/Models/SkinLesionAnalyzer/model.json";
 
 export const analizerIA = async (img: string, modelPath?: string) => {
   try {
@@ -13,25 +15,48 @@ export const analizerIA = async (img: string, modelPath?: string) => {
 
     if (modelPath) return await expecifcIA(imageTensor, modelPath);
     else return await genericIA(imageTensor);
-    
-  } catch (err) {
-    console.log("Error:", err);
+  } catch (error) {
+    console.log("Error:", error);
     return "Error during processing";
   }
 };
 
 async function genericIA(imageTensor: tf.Tensor3D) {
-  const model = await mobilenet.load();
-  const prediction = await model.classify(imageTensor);
-  return `${prediction[0].className} (${prediction[0].probability.toFixed(3)})`;
+  try {
+    const model = await mobilenet.load();
+    const prediction = await model.classify(imageTensor);
+    return `${prediction[0].className} (${prediction[0].probability.toFixed(
+      3
+    )})`;
+  } catch (error) {
+    console.error("error generic ia, " + error);
+  }
 }
 
 async function expecifcIA(imageTensor: tf.Tensor3D, modelPath: string) {
-  const model = await tf.loadLayersModel(modelPath);
-  const prediction = await model.predict(imageTensor.expandDims(0)) as tf.Tensor;
-  const predictionData = await prediction.data();
+  try {
+    const model = await tf
+      .loadLayersModel("../../" + modelPath)
+      .then((res) => res)
+      .catch((err) => console.error("err to load model " + err));
 
-  console.log("prediction "+predictionData)
+    const prediction =
+      model && ((await model.predict(imageTensor.expandDims(0))) as tf.Tensor);
 
-  return `Prediction result: ${predictionData}`;
+    const predictionData =
+      prediction &&
+      (await prediction
+        .data()
+        .then((res) => {
+          console.log("complete prediction, " + res);
+          return res;
+        })
+        .catch((err) => console.error("prediction err, " + err)));
+
+    console.log("prediction " + predictionData);
+
+    return `Prediction result: ${predictionData}`;
+  } catch (error) {
+    console.error("error expecific ia, " + error);
+  }
 }
